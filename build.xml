@@ -110,7 +110,7 @@
 		</target>
 		<target name="run" depends="install">
 			<echo message="app start introsde.rest.ehealth.App in ${build.dir}" />
-			<java classname="PCResources.App" classpath="${build.dir}" fork="true">
+			<java classname="PCResources.server.App" classpath="${build.dir}" fork="true">
 				<arg value="$JAVA_OPTS  -cp" />
 				<classpath>
 					<path location="build" />
