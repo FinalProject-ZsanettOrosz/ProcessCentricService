@@ -124,13 +124,6 @@ public class ProcessService {
 			int afterPost = achAfterArray.length();
 			System.out.println(afterPost);
 
-			if (beforePost <= afterPost) {
-				toMotivate = "Don't worry keep going!";
-				System.out.println(toMotivate);
-			}else{
-				toMotivate = "";
-			}
-
 			// GET achivements fot today from SS
 			// this is all the achivements so far
 			String urlForAchivements = "http://10.218.223.84:5700/sdelab/goals/person/"
@@ -165,7 +158,7 @@ public class ProcessService {
 			JSONArray allGoals = new JSONArray(goals);
 			JSONArray goalsToCongratulate = new JSONArray();
 
-			System.out.println("to congrat:" + goalsToCongratulate.length());
+			
 
 			for (int j = 0; j < achivedToday.length(); j++) {
 				JSONObject achived = new JSONObject(achivedToday.getJSONObject(
@@ -177,42 +170,54 @@ public class ProcessService {
 					JSONObject goal = new JSONObject(allGoals.getJSONObject(i)
 							.toString());
 					if (goalInAchivedGoal.getInt("idGoal") == goal
-							.getInt("idGoal")) {
-						goalsToCongratulate.put(goal);
-						System.out.println(goal.toString());
+							.getInt("idGoal") ) {
+						JSONObject m = new JSONObject(goal.get("measureDef").toString());
+						if(m.get("name").equals(measureType)){
+							goalsToCongratulate.put(goal); // only if its in the posted type
+							System.out.println(goal.toString());
+						}
+						
 					}
 				}
 
 			}
+			
 
 			// GET pic for every goal and congratulate
+			/*if (beforePost < afterPost) {
+				toMotivate = "Keep going!";
+				System.out.println(toMotivate);
+			} else {*/
 
-			congrats = new String[goalsToCongratulate.length()];
+				congrats = new String[goalsToCongratulate.length()];
 
-			for (int i = 0; i < goalsToCongratulate.length(); i++) {
+				for (int i = 0; i < goalsToCongratulate.length(); i++) {
+
+					String urlForPic = "http://10.218.223.84:5700/sdelab/goals/pic";
+					String pic = doGet(urlForPic);
+					System.out.println(pic);
+
+					JSONObject g = new JSONObject(goalsToCongratulate
+							.getJSONObject(i).toString());
+					JSONObject md = new JSONObject(g.get("measureDef")
+							.toString());
+
+					System.out.println(g.toString(4));
+					System.out.println(md.toString(4));
+
+					congrats[i] = "Congratulations! You have achived "
+							+goalsToCongratulate.getJSONObject(i).getDouble(
+									"goalValue")
+							+ " "
+							+ md.getString("name")
+							+ " today! Here is a pretty picture or you, as a revard:"
+							+ pic;
+					System.out.println(congrats[i]);
+					toMotivate += congrats[i];
+				}
 				
-				String urlForPic = "http://10.218.223.84:5700/sdelab/goals/pic";
-				String pic = doGet(urlForPic);
-				System.out.println(pic);
-				
-				JSONObject g = new JSONObject(goalsToCongratulate
-						.getJSONObject(i).toString());
-				JSONObject md = new JSONObject(g.get("measureDef").toString());
-
-				System.out.println(g.toString(4));
-				System.out.println(md.toString(4));
-
-				congrats[i] = "Congratulations! You have achived "
-						+ md.getString("name")
-						+ " "
-						+ goalsToCongratulate.getJSONObject(i).getDouble(
-								"goalValue")
-						+ " today!\n Here is a pretty picture or you, as a revard: \n "
-						+ pic;
-				System.out.println(congrats[i]);
-				toMotivate += congrats[i] + "\n";
-			}
-
+				System.out.println(toMotivate);
+			//}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
