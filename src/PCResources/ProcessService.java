@@ -104,7 +104,7 @@ public class ProcessService {
 			// GET goals from SS
 			// GET pic if there were achivements
 
-			String strUrl = "http://10.218.223.84:5700/sdelab/goals/person/"
+			String strUrl = "https://intense-mesa-6521.herokuapp.com/sdelab/goals/person/"
 					+ personID;
 			String strAch = doGet(strUrl);
 			JSONArray achBeforeArray = new JSONArray(strAch);
@@ -112,12 +112,12 @@ public class ProcessService {
 			System.out.println(beforePost);
 
 			// POST to BL
-			String urlToPost = "http://10.218.223.84:5702/sdelab/person/"
+			String urlToPost = "https://secret-forest-8470.herokuapp.com/sdelab/person/"
 					+ personID + "/" + measureType;
 			String afterPostValue = doPost(urlToPost, postedValue);
 			System.out.println("person after post: " + afterPostValue);
 
-			String strUrlAfterPost = "http://10.218.223.84:5700/sdelab/goals/person/"
+			String strUrlAfterPost = "https://intense-mesa-6521.herokuapp.com/sdelab/goals/person/"
 					+ personID;
 			String strAchAfter = doGet(strUrlAfterPost);
 			JSONArray achAfterArray = new JSONArray(strAchAfter);
@@ -126,7 +126,7 @@ public class ProcessService {
 
 			// GET achivements fot today from SS
 			// this is all the achivements so far
-			String urlForAchivements = "http://10.218.223.84:5700/sdelab/goals/person/"
+			String urlForAchivements = "https://intense-mesa-6521.herokuapp.com/sdelab/goals/person/"
 					+ personID;
 			String achivements = doGet(urlForAchivements);
 
@@ -153,7 +153,7 @@ public class ProcessService {
 			System.out.println("Achived goals today: " + achivedToday.length());
 
 			// GET from SS
-			String urlForGoals = "http://10.218.223.84:5700/sdelab/goals/";
+			String urlForGoals = "https://intense-mesa-6521.herokuapp.com/sdelab/goals/";
 			String goals = doGet(urlForGoals);
 			JSONArray allGoals = new JSONArray(goals);
 			JSONArray goalsToCongratulate = new JSONArray();
@@ -193,7 +193,7 @@ public class ProcessService {
 
 				for (int i = 0; i < goalsToCongratulate.length(); i++) {
 
-					String urlForPic = "http://10.218.223.84:5700/sdelab/goals/pic";
+					String urlForPic = "https://intense-mesa-6521.herokuapp.com/sdelab/goals/pic";
 					String pic = doGet(urlForPic);
 					System.out.println(pic);
 
@@ -205,7 +205,7 @@ public class ProcessService {
 					System.out.println(g.toString(4));
 					System.out.println(md.toString(4));
 
-					congrats[i] = "Congratulations! You have achived "
+					congrats[i] = "Congratulations! You have achived the minimum "
 							+goalsToCongratulate.getJSONObject(i).getDouble(
 									"goalValue")
 							+ " "
